@@ -1,0 +1,33 @@
+; 
+; PAUSE_MODE: Rotina que permite entrar no modo pausa.
+; 		Entradas: ---
+;		Saidas: ---
+; 		Efeitos: Altera PAUSE_FLAG e TURBO_FLAG
+;
+PAUSE_MODE:	PUSH	R7
+		
+		MOV	M[PAUSE_FLAG], R0
+
+		PUSH	LCD_0_0
+		PUSH	DEL_STRING
+		CALL	WRITE_LCD
+
+		PUSH	LCD_1_0
+		PUSH	DEL_STRING
+		CALL	WRITE_LCD
+
+		PUSH	LCD_0_0	
+		PUSH	PAUSE_NOTE
+		CALL	WRITE_LCD
+
+PAUSE_CICLE:	CMP	M[PAUSE_FLAG], R0
+		BR.Z	PAUSE_CICLE
+
+		CALL	W_DISTS_STR
+		CALL	WRITE_DISTS
+
+		MOV	M[PAUSE_FLAG], R0
+		MOV	M[TURBO_FLAG], R0
+
+		POP	R7
+		RET
